@@ -22,7 +22,7 @@ typedef struct Pixel
 	byte red;
 	byte green;
 	byte blue;
-}Pixel;
+} __attribute__((__packed__)) Pixel;
 typedef struct bitMapFileHeader
 {
 	byte bfType1;
@@ -31,7 +31,7 @@ typedef struct bitMapFileHeader
 	word bfReserved1;
 	word bfReserved2;
 	double_word bfOffBits;
-}bitMapFileHeader;
+} __attribute__((__packed__))bitMapFileHeader;
 typedef struct bitMapInfoHeader
 {
 	double_word biSize;
@@ -45,28 +45,28 @@ typedef struct bitMapInfoHeader
 	double_word biYPelsPerMeter;
 	double_word biClrUsed;
 	double_word biClrImportant;
-}bitMapInfoHeader;
+} __attribute__((__packed__))bitMapInfoHeader;
 typedef struct image_header
 {
 	bitMapFileHeader fileHeader;
 	bitMapInfoHeader infoHeader;
-}image_header;
+} __attribute__((__packed__))image_header;
 
 typedef struct image_data
 {
-	Pixel ** pixelArray ;
-	//int paddingInEveryRow;
-}image_data;
+	Pixel *** pixelArray;
+} __attribute__((__packed__))image_data;
 
 
 typedef struct bmp_image
 {
+	char* nameOfFile;
 	image_header*  header;
 	image_data* data;
 
-}bmp_image;
+} __attribute__((__packed__))bmp_image;
 
-void printPixel(Pixel p);
+void printPixel(Pixel *p);
 void printHeader(image_header* header);
 void printFileHeader(bitMapFileHeader f);
 void printInfoHeader(bitMapInfoHeader f);

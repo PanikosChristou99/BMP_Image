@@ -8,9 +8,9 @@
 #include "BMP_Image.h"
 
 
-void printPixel(Pixel p)
+void printPixel(Pixel *p)
 {
-	printf("red %c\n grenn%c\nblue%c\n",p.red,p.green,p.blue);
+	printf("red %02X\ngrenn%02X\nblue%02X\n",(int)p->red,(int)p->green,(int)p->blue);
 }
 
 void printFileHeader(bitMapFileHeader f)
@@ -50,6 +50,7 @@ void printData(image_data * data, int heigth, int width)
 }
 void printImageNot(bmp_image * pic)
 {
+	printf("name Of File %s", pic->nameOfFile);
 	printHeader(pic->header);
 	printData(pic->data,pic->header->infoHeader.biHeight,pic->header->infoHeader.biWidth);
 }
