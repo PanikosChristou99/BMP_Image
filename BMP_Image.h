@@ -8,17 +8,21 @@
 #ifndef BMP_IMAGE_H_
 #define BMP_IMAGE_H_
 
-typedef unsigned char byte;
+typedef unsigned char byte  ;
 typedef unsigned short int word;
 typedef unsigned int double_word;
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-typedef struct bmp_image
+
+typedef struct Pixel
 {
-	image_header* header;
-	image_data* data;
-
-}bmp_image;
+	byte red;
+	byte green;
+	byte blue;
+}Pixel;
 typedef struct bitMapFileHeader
 {
 	byte bfType1;
@@ -44,21 +48,35 @@ typedef struct bitMapInfoHeader
 }bitMapInfoHeader;
 typedef struct image_header
 {
-	bitMapFileHeader* fileHeader;
-	bitMapInfoHeader* infoHeader;
+	bitMapFileHeader fileHeader;
+	bitMapInfoHeader infoHeader;
 }image_header;
 
-typedef struct Pixel
-{
-	byte red;
-	byte green;
-	byte blue;
-}Pixel;
 typedef struct image_data
 {
-	Pixel*** pixelArray;
+	Pixel ** pixelArray ;
 	//int paddingInEveryRow;
 }image_data;
+
+
+typedef struct bmp_image
+{
+	image_header*  header;
+	image_data* data;
+
+}bmp_image;
+
+void printPixel(Pixel p);
+void printHeader(image_header* header);
+void printFileHeader(bitMapFileHeader f);
+void printInfoHeader(bitMapInfoHeader f);
+void printData(image_data* data, int heigth, int width);
+void printImageNot(bmp_image* pic);
+
+
+
+
+
 
 
 
