@@ -50,6 +50,8 @@ void hflip(bmpimage* a) {
 	fwrite(tab1, NB * sizeof(int), 1, f_out);
 	fclose(f_out);
 
+	whatever
+
 
 }
 
