@@ -75,7 +75,7 @@ void printImageNot(bmp_image* pic);
 image_header* copyHeader(image_header* original);
 Pixel* copyPixel(Pixel* original);
 Pixel * makePaddingPixel();
-
+void printInBinaryFile( bmp_image* image);
 
 
 

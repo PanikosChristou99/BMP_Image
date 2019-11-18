@@ -12,7 +12,22 @@ void printPixel(Pixel *p)
 {
 	printf("red %02X\ngrenn%02X\nblue%02X\n",(int)p->red,(int)p->green,(int)p->blue);
 }
-
+void printInBinaryFile( bmp_image* image)
+{
+	FILE * whereToPrint= fopen(image->nameOfFile, "wb");
+	int height = image->header->infoHeader.biHeight;
+			int width = image->header->infoHeader.biWidth;
+			int padding = (width * 3) % 4;
+	fwrite((image->header), sizeof(*(image->header)), 1, whereToPrint);
+			for(int i=height-1; i>=0; i--)
+			{
+				for(int j=0; j<(width+padding); j++)
+				{
+					fwrite((image->data->pixelArray[i][j]), sizeof(Pixel), 1, whereToPrint);
+				}
+			}
+		fclose(whereToPrint);
+}
 void printFileHeader(bitMapFileHeader f)
 {
 	printf("bfType1 %c\nbfType2 %c\n",f.bfType1,f.bfType2);
