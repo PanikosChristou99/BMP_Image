@@ -30,20 +30,60 @@ void sharpen(bmp_image *prev) {
 
 		}
 	}
-	for (i = 1; i < height-1; ++i) {
-		pixelArray[i][0] = calcPixel(ar[i-1][width-1],ar[i-1][0],ar[i-1][1],
-				ar[i][width-1],ar[i][0],ar[i][1],
-				ar[i+1][width-1],ar[i+1][0],ar[i+1][1]);
+	/*
+	 * *          *
+	 * *          *
+	 * *          *
+	 * *          *
+	 * *          *
+	 *
+	 */
+	for (i = 1; i < height - 1; ++i) {
+		pixelArray[i][0] = calcPixel(ar[i - 1][width - 1], ar[i - 1][0],ar[i - 1][1],
+				ar[i][width - 1], ar[i][0], ar[i][1],
+				ar[i + 1][width - 1], ar[i + 1][0], ar[i + 1][1]);
 
-		pixelArray[i][width-1] = calcPixel(ar[i-1][width-1],ar[i-1][width],ar[i-1][0],
-						ar[i][width-1],ar[i][width],ar[i][0],
-						ar[i+1][width-1],ar[i+1][width],ar[i+1][0]);
-
+		pixelArray[i][width - 1] = calcPixel(ar[i - 1][width - 1],
+				ar[i - 1][width], ar[i - 1][0], ar[i][width - 1], ar[i][width],
+				ar[i][0], ar[i + 1][width - 1], ar[i + 1][width], ar[i + 1][0]);
 
 	}
-	for (i = 1; i < width-1; ++i) {
+      /*        *********************
+       *
+       *
+       *        *********************
+       */
+	for (i = 1; i < width - 1; ++i) {
+		pixelArray[0][i] = calcPixel(ar[height - 1][i - 1], ar[height - 1][i],
+				ar[height - 1][i + 1], ar[0][i - 1], ar[0][i], ar[0][i - 1],
+				ar[1][i - 1], ar[1][i], ar[1][i - 1]);
 
+		pixelArray[height - 1][i] = calcPixel(
+				ar[height - 2][i - 1],ar[height - 2][i], ar[height - 1][i + 1],
+				ar[height - 1][i - 1],ar[height - 1][i], ar[height - 1][i + 1],
+				ar[0][i - 1],ar[0][i], ar[0][i + 1]);
 	}
+	pixelArray[0][0] = calcPixel(
+					ar[height-1][width-1],ar[height-1][0], ar[height-1][1],
+					ar[0][width-1],ar[0][0], ar[0][1],
+					ar[1][width-1],ar[1][0], ar[1][1]);
+	pixelArray[height - 1][0] = calcPixel(
+			ar[height-2][width-1],ar[height-2][0], ar[height-2][1],
+			ar[height - 1][width-1],ar[height-1][0], ar[height - 1][1],
+			ar[0][width-1],ar[0][0], ar[0][1]);
+	pixelArray[0][width-1] = calcPixel(
+								ar[height-1][width-2],ar[height-1][width-1], ar[height-1][0],
+								ar[0][width-2],ar[0][width-1], ar[0][0],
+								ar[1][width-2],ar[1][width-1], ar[1][0]);
+	pixelArray[height - 1][width-1] = calcPixel(
+								ar[height - 2][width-2],ar[height - 2][width-1], ar[height - 2][0],
+								ar[height-1][width-2],ar[height-1][width-1], ar[height-1][0],
+								ar[0][width-2],ar[0][width-1], ar[0][0]);
+
+	bmp_image * ans= (bmp_image*)malloc(sizeof(bmp_image));
+	ans->header=copyHeader(prev->header);
+	ans->data=pixelArray;
+
 }
 
 Pixel* calcPixel(Pixel m1, Pixel m2, Pixel m3, Pixel m4, Pixel m5, Pixel m6,
