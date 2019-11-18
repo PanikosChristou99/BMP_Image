@@ -252,6 +252,43 @@ Pixel* calcPixel(Pixel m1, Pixel m2, Pixel m3, Pixel m4, Pixel m5, Pixel m6,
 			m5.green, m6.green, m7.green, m8.green, m9.green);
 	return pix;
 }
+int main() {
+	FILE *bin;
+		bin = fopen("image1.bmp", "rb");
+		image_header *header = (image_header*) malloc(sizeof(image_header));
+		fread(header, sizeof(image_header), 1, bin);
+		int height = header->infoHeader.biHeight;
+		int width = header->infoHeader.biWidth;
+		int padding = (width * 3) % 4;
+
+		printHeader(header);
+		image_data *data = (image_data*) malloc(sizeof(image_data));
+		data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
+		Pixel *temp = malloc(sizeof(Pixel));
+		for (int i = height-1; i >=0; i--) {
+			data->pixelArray[i] = (Pixel**) malloc(width * sizeof(Pixel*));
+			for (int j = 0; j < width; j++) {
+				data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
+				fread(data->pixelArray[i][j], sizeof(Pixel), 1, bin);
+				//printPixel(data->pixelArray[i][j]);
+			}
+			for (int j = 0; j < padding; j++) {
+				fread(temp, sizeof(Pixel), 1, bin);
+				//printPixel(temp);
+
+			}
+		}
+		fclose(bin);
+		bmp_image *image = (bmp_image*) malloc(sizeof(bmp_image));
+		image->data = data;
+		image->header = header;
+		image->nameOfFile =(char*)malloc(sizeof(strlen("image1.bmp")+1));
+		strcpy(image->nameOfFile, "image1.bmp");
+
+		vflip(image);
+
+
+}
 
 int calcSharpenValues(int val1, int val2, int val3, int val4, int val5,
 		int val6, int val7, int val8, int val9) {
