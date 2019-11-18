@@ -13,9 +13,11 @@ void sharpen(bmp_image *prev) {
 
 	Pixel ***pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
 	Pixel *temp = malloc(sizeof(Pixel));
-	for (int i = 0; i < height; i++) {
+	int i = 0;
+		int j = 0;
+	for ( i = 0; i < height; i++) {
 		pixelArray[i] = (Pixel**) malloc((width+padding) * sizeof(Pixel*));
-		for (int j = 0; j < width; j++) {
+		for ( j = 0; j < width; j++) {
 			pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
 		}
 		for (int j = width; j < width+padding; j++) {
@@ -23,8 +25,7 @@ void sharpen(bmp_image *prev) {
 				}
 
 	}
-	int i = 0;
-	int j = 0;
+
 	Pixel ***ar = prev->data->pixelArray;
 	for (i = 1; i < height - 2; ++i) {
 		for (j = 1; j < width - 2; ++j) {
@@ -88,12 +89,11 @@ void sharpen(bmp_image *prev) {
 	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
 	ans->header = copyHeader(prev->header);
 	ans->data = pixelArray;
-	char* tempC= (char*) malloc((strlen(prev->nameOfFile)+9)*sizeof(char));
-		strcpy(tempC,"sharpen-");
-		strcat(tempC,prev->nameOfFile);
-		printf("name of original %s\n",prev->nameOfFile);
-		ans->nameOfFile=tempC;
-		printImageNot(ans);
+	ans->nameOfFile = malloc(sizeof(char*));
+	char* name = strcpy(ans->nameOfFile,prev->nameOfFile);
+	 name = strcat(name,"Sharpened");
+	ans->nameOfFile = name;
+	printInBinaryFile(ans);
 	return;
 }
 

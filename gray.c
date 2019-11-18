@@ -36,10 +36,14 @@ void gray(bmp_image *prev) {
 
 	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
 		ans->header = copyHeader(prev->header);
-
 		ans->data = pixelArray;
+		ans->nameOfFile = malloc(sizeof(char*));
+		char* name = strcpy(ans->nameOfFile,prev->nameOfFile);
+		 name = strcat(name,"Grayed");
+		ans->nameOfFile = name;
 		printInBinaryFile(ans);
 		return;
+	}
 }
 Pixel* calcGray(Pixel* prev){
 	Pixel *pix = (Pixel*) malloc(sizeof(Pixel));
