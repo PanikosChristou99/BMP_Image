@@ -72,13 +72,9 @@ void printFileHeader(bitMapFileHeader f);
 void printInfoHeader(bitMapInfoHeader f);
 void printData(image_data* data, int heigth, int width);
 void printImageNot(bmp_image* pic);
-
-
-
-
-
-
-
+image_header* copyHeader(image_header* original);
+Pixel* copyPixel(Pixel* original);
+Pixel * makePaddingPixel();
 
 
 
