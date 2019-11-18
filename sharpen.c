@@ -5,6 +5,7 @@
  *      Author: panikos
  */
 #include "sharpen.h"
+#include "BMP_Image.h"
 void sharpen(bmp_image *prev) {
 	double_word width = prev->header->infoHeader.biWidth;
 	double_word height = prev->header->infoHeader.biHeight;
@@ -28,9 +29,9 @@ void sharpen(bmp_image *prev) {
 	for (i = 1; i < height - 2; ++i) {
 		for (j = 1; j < width - 2; ++j) {
 
-			pixelArray[i][j] = calcPixel(ar[i - 1][j - 1], ar[i - 1][j],
-					ar[i - 1][j + 1], ar[i][j - 1], ar[i][j], ar[i][j + 1],
-					ar[i + 1][j - 1], ar[i + 1][j], ar[i + 1][j + 1]);
+			pixelArray[i][j] = calcPixel((Pixel*)ar[i - 1][j - 1], (Pixel*)ar[i - 1][j],
+					(Pixel*)ar[i - 1][j + 1], (Pixel*)ar[i][j - 1], (Pixel*)ar[i][j], (Pixel*)ar[i][j + 1],
+					(Pixel*)ar[i + 1][j - 1], (Pixel*)ar[i + 1][j],(Pixel*) ar[i + 1][j + 1]);
 
 		}
 	}
@@ -96,15 +97,15 @@ void sharpen(bmp_image *prev) {
 	return;
 }
 
-Pixel* calcPixel(Pixel m1, Pixel m2, Pixel m3, Pixel m4, Pixel m5, Pixel m6,
-		Pixel m7, Pixel m8, Pixel m9) {
+Pixel* calcPixel(Pixel *m1, Pixel *m2, Pixel *m3, Pixel *m4, Pixel *m5, Pixel *m6,
+		Pixel *m7, Pixel *m8, Pixel *m9) {
 	Pixel *pix = (Pixel*) malloc(sizeof(Pixel));
-	pix->blue = calcSharpenValues(m1.blue, m2.blue, m3.blue, m4.blue, m5.blue,
-			m6.blue, m7.blue, m8.blue, m9.blue);
-	pix->red = calcSharpenValues(m1.red, m2.red, m3.red, m4.red, m5.red, m6.red,
-			m7.red, m8.red, m9.blue);
-	pix->green = calcSharpenValues(m1.green, m2.green, m3.green, m4.green,
-			m5.green, m6.green, m7.green, m8.green, m9.green);
+	pix->blue = calcSharpenValues(m1->blue, m2->blue, m3->blue, m4->blue, m5->blue,
+			m6->blue, m7->blue, m8->blue, m9->blue);
+	pix->red = calcSharpenValues(m1->red, m2->red, m3->red, m4->red, m5->red, m6->red,
+			m7->red, m8->red, m9->blue);
+	pix->green = calcSharpenValues(m1->green, m2->green, m3->green, m4->green,
+			m5->green, m6->green, m7->green, m8->green, m9->green);
 	return pix;
 }
 int calcSharpenValues(int val1, int val2, int val3, int val4, int val5,

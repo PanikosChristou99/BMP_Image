@@ -4,7 +4,7 @@
  *  Created on: Nov 18, 2019
  *      Author: panikos
  */
-
+#include "BMP_Image.h"
 #include "gray.h"
 void gray(bmp_image *prev) {
 	double_word width = prev->header->infoHeader.biWidth;
