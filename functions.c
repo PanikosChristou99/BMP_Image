@@ -5,7 +5,10 @@
  *      Author: panikos
  */
 #include "BMP_Image.c"
-
+#include "right90.h"
+#include "left90.h"
+#include "zoomout.h"
+#include "zoomIn.h"
 #include "sharpen.h"
 #include "gray.h"
 
