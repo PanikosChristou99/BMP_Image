@@ -8,148 +8,148 @@
 #include <stdlib.h>
 #include <string.h>
 #include "BMP_Image.h"
-//
-//int main(int argc, char **argv) {
-//	if (argc == 1) {
-//		printf("en evales arguments");
-//	}
-//	if (checkArgsFor("-list", argc, argv)) {
-//		int i = 0;
-//checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				list(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-hflip", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				hflip(temp);
-//			}
-//
-//		}
-//
-//	} else if (checkArgsFor("-vflip", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				vflip(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-right90", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				right90(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-left90", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				left90(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-zoomin", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				zoomin(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-zoomout", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				zoomout(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-gray", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				gray(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-sharpen", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				sharpen(temp);
-//			}
-//
-//		}
-//	} else if (checkArgsFor("-reverse", argc, argv)) {
-//		int i = 0;
-//		checkMissingFiles(argc);
-//		bmp_image *temp = NULL;
-//		for (i = 2; i < argc; ++i) {
-//			temp = readBmp(argv);
-//			if (!checkLegal(temp)) {
-//				printf("cant parse the %d  image \n", i - 1);
-//			} else {
-//				reverse(temp);
-//			}
-//
-//		}
-//	} else {
-//		printf("en edoses sosto option");
-//	}
-//
-//	return 0;
-//}
+
+int main(int argc, char **argv) {
+	if (argc == 1) {
+		printf("en evales arguments");
+	}
+	if (checkArgsFor("-list", argc, argv)) {
+		int i = 0;
+checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				list(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-hflip", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				hflip(temp);
+			}
+
+		}
+
+	} else if (checkArgsFor("-vflip", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				vflip(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-right90", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				right90(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-left90", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				left90(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-zoomin", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				zoomin(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-zoomout", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				zoomout(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-gray", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				gray(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-sharpen", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				sharpen(temp);
+			}
+
+		}
+	} else if (checkArgsFor("-reverse", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				reverse(temp);
+			}
+
+		}
+	} else {
+		printf("en edoses sosto option");
+	}
+
+	return 0;
+}
 void checkMissingFiles(int argc){
 	if (argc==2) {
 				printf("you didnt put any files");

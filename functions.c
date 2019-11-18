@@ -100,8 +100,9 @@ void gray(bmp_image *prev) {
 
 	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
 		ans->header = copyHeader(prev->header);
-		ans->data = pixelArray;
 
+		ans->data = pixelArray;
+		printInBinaryFile(ans);
 		return;
 }
 Pixel* calcGray(Pixel* prev){
@@ -116,14 +117,18 @@ Pixel* calcGray(Pixel* prev){
 void sharpen(bmp_image *prev) {
 	double_word width = prev->header->infoHeader.biWidth;
 	double_word height = prev->header->infoHeader.biHeight;
+	int padding = (width * 3) % 4;
 
 	Pixel ***pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
 	Pixel *temp = malloc(sizeof(Pixel));
 	for (int i = 0; i < height; i++) {
-		pixelArray[i] = (Pixel**) malloc(width * sizeof(Pixel*));
+		pixelArray[i] = (Pixel**) malloc((width+padding) * sizeof(Pixel*));
 		for (int j = 0; j < width; j++) {
 			pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
 		}
+		for (int j = width; j < width+padding; j++) {
+					pixelArray[i][j] = makePaddingPixel();
+				}
 
 	}
 	int i = 0;
@@ -191,7 +196,12 @@ void sharpen(bmp_image *prev) {
 	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
 	ans->header = copyHeader(prev->header);
 	ans->data = pixelArray;
-
+	char* tempC= (char*) malloc((strlen(prev->nameOfFile)+9)*sizeof(char));
+		strcpy(tempC,"sharpen-");
+		strcat(tempC,prev->nameOfFile);
+		printf("name of original %s\n",prev->nameOfFile);
+		ans->nameOfFile=tempC;
+		printImageNot(ans);
 	return;
 }
 
