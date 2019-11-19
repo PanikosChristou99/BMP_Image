@@ -7,6 +7,7 @@
 
 #ifndef ZOOMIN_H_
 #define ZOOMIN_H_
+#include "BMP_Image.h"
 
 void zoomIn(bmp_image *prev);
 
