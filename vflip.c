@@ -39,5 +39,6 @@ void vflip (bmp_image *original)
 	strcat(tempC,original->nameOfFile);
 	printf("name of original %s\n",original->nameOfFile);
 	ans->nameOfFile=tempC;
+	ans->header->infoHeader.biSizeImage = 0;
 	printInBinaryFile(ans);
 }

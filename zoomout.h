@@ -6,4 +6,5 @@
  */
 #include "BMP_Image.h"
 void zoomout(bmp_image *prev);
+Pixel*  calcSharpenValues(bmp_image* image, int x, int y);
 

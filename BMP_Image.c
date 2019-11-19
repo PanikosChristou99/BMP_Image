@@ -46,7 +46,7 @@ void printInfoHeader(bitMapInfoHeader f)
 	printf("biXPelsPerMeter %d\n",f.biXPelsPerMeter);
 	printf("biYPelsPerMeter %d\n",f.biYPelsPerMeter);
 	printf("biClrUsed %d\n",f.biClrUsed);
-	printf("biClrImportant %d\n",f.biClrImportant);
+	printf("biClrImportant %d\n\n\n",f.biClrImportant);
 }
 void printHeader(image_header *header)
 {
@@ -103,6 +103,7 @@ Pixel* copyPixel(Pixel* original)
 	temp->red=original->red;
 	return temp;
 }
+
 Pixel * makePaddingPixel()
 {
 	Pixel * pad= (Pixel*)malloc(sizeof(Pixel));
@@ -111,6 +112,7 @@ Pixel * makePaddingPixel()
 	pad->blue=(unsigned char) 0;
 	return pad;
 }
+
 void checkMissingFiles(int argc){
 	if (argc==2) {
 				printf("you didnt put any files");
@@ -121,14 +123,14 @@ int checkLegal(bmp_image *im) {
 	char *str = im->nameOfFile;
 	if (str[strlen(str) - 4] != '.' || str[strlen(str) - 3] != 'b'
 			|| str[strlen(str) - 2] != 'm' || str[strlen(str) - 1] != 'p')
-		return 1;
+		return 0;
 	if (im->header->fileHeader.bfType1 != 'B'
 			|| im->header->fileHeader.bfType2 != 'M'
 			|| im->header->infoHeader.biBitCount != 24
 			|| im->header->infoHeader.biCompression != 0) {
-		return 1;
+		return 0;
 	}
-	return 0;
+	return 1;
 }
 bmp_image* readBmp(char *fileName) {
 	FILE *bin;
@@ -139,7 +141,7 @@ bmp_image* readBmp(char *fileName) {
 	int width = header->infoHeader.biWidth;
 	int padding = (width * 3) % 4;
 
-	printHeader(header);
+	//printHeader(header);
 	image_data *data = (image_data*) malloc(sizeof(image_data));
 	data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
 	Pixel *temp = malloc(sizeof(Pixel));

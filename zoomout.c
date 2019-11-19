@@ -9,7 +9,7 @@
 void zoomout(bmp_image *prev) {
 	double_word width = (double_word)(prev->header->infoHeader.biWidth/2);
 	double_word height = (double_word)(prev->header->infoHeader.biHeight/2);
-	int padding = (width * 3) % 4;
+	double_word padding = (width * 3) % 4;
 	int i = 0;
 	int j = 0;
 	Pixel ***pixelArray = (Pixel***) malloc(height *sizeof(Pixel**));
@@ -17,6 +17,7 @@ void zoomout(bmp_image *prev) {
 		pixelArray[i] = (Pixel**) malloc((width + padding) * sizeof(Pixel*));
 		for ( j = 0; j < width; j++) {
 			pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
+			pixelArray[i][j] = (Pixel *)prev->data->pixelArray[i*2][j*2];
 		}
 		for ( j = width; j < width + padding; j++) {
 			pixelArray[i][j] = makePaddingPixel();
@@ -27,7 +28,7 @@ void zoomout(bmp_image *prev) {
 
 	for ( i = 0; i < height; i++) {
 		for (j = 0; j < width; j++) {
-			pixelArray[i][j] = prev->data->pixelArray[2*i][2*j];
+			pixelArray[i][j] = (Pixel *)prev->data->pixelArray[i*2][j*2];
 		}
 	}
 
@@ -44,49 +45,49 @@ void zoomout(bmp_image *prev) {
 
 		ans->data=(image_data*)malloc(sizeof(image_data));
 		ans->data->pixelArray = pixelArray;
-		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("Zoomedin-")))*sizeof(char*));
-		char* name = strcpy(ans->nameOfFile,"Zoomedin-");
+		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("Zoomedout-")))*sizeof(char*));
+		char* name = strcpy(ans->nameOfFile,"Zoomedout-");
 		 name = strcat(name,prev->nameOfFile);
 		ans->nameOfFile = name;
+		ans->header->infoHeader.biSizeImage = 0;
 		printInBinaryFile(ans);
 		return;
 
 
 }
-
-
-int main() {
-	FILE *bin;
-		bin = fopen("image2.bmp", "rb");
-		image_header *header = (image_header*) malloc(sizeof(image_header));
-		fread(header, sizeof(image_header), 1, bin);
-		int height = header->infoHeader.biHeight;
-		int width = header->infoHeader.biWidth;
-		int padding = (width * 3) % 4;
-		//printHeader(header);
-		image_data *data = (image_data*) malloc(sizeof(image_data));
-		data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
-		Pixel *temp = malloc(sizeof(Pixel));
-		for (int i = height-1; i >=0; i--) {
-			data->pixelArray[i] = (Pixel**) malloc(width * sizeof(Pixel*));
-			for (int j = 0; j < width; j++) {
-				data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
-				fread(data->pixelArray[i][j], sizeof(Pixel), 1, bin);
-				//printPixel(data->pixelArray[i][j]);
-			}
-			for (int j = 0; j < padding; j++) {
-				fread(temp, sizeof(Pixel), 1, bin);
-				//printPixel(temp);
-
-			}
-		}
-		fclose(bin);
-		bmp_image *image = (bmp_image*) malloc(sizeof(bmp_image));
-		image->data = data;
-		image->header = header;
-		image->nameOfFile =(char*)malloc(sizeof(strlen("image7.bmp")+1));
-		strcpy(image->nameOfFile, "image7.bmp");
-		//printImageNot(image);
-		zoomout(image);
-}
-
+//int main() {
+//	FILE *bin;
+//		bin = fopen("image2.bmp", "rb");
+//		image_header *header = (image_header*) malloc(sizeof(image_header));
+//		fread(header, sizeof(image_header), 1, bin);
+//		int height = header->infoHeader.biHeight;
+//		int width = header->infoHeader.biWidth;
+//		int padding = (width * 3) % 4;
+//		//printHeader(header);
+//		image_data *data = (image_data*) malloc(sizeof(image_data));
+//		data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
+//		Pixel *temp = malloc(sizeof(Pixel));
+//		for (int i = height-1; i >=0; i--) {
+//			data->pixelArray[i] = (Pixel**) malloc(width * sizeof(Pixel*));
+//			for (int j = 0; j < width; j++) {
+//				data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
+//				fread(data->pixelArray[i][j], sizeof(Pixel), 1, bin);
+//				//printPixel(data->pixelArray[i][j]);
+//			}
+//			for (int j = 0; j < padding; j++) {
+//				fread(temp, sizeof(Pixel), 1, bin);
+//				//printPixel(temp);
+//
+//			}
+//		}
+//		fclose(bin);
+//		bmp_image *image = (bmp_image*) malloc(sizeof(bmp_image));
+//		image->data = data;
+//		image->header = header;
+//		image->nameOfFile =(char*)malloc(sizeof(strlen("image7.bmp")+1));
+//		strcpy(image->nameOfFile, "image7.bmp");
+//		//printImageNot(image);
+//		zoomout(image);
+//
+//
+//}

@@ -27,11 +27,12 @@ void left90(bmp_image *prev) {
 
 	}
 	for ( i = 0; i < height; i++) {
-		for (j = 0; j < width; i++) {
-			pixelArray[i][j] = prev->data->pixelArray[height-1-i][j];
+		for (j = 0; j < width; j++) {
+			pixelArray[i][j] = prev->data->pixelArray[j][i];
 
 		}
 	}
+
 	int posaBytePouPixels=height*(padding+width)*sizeof(Pixel);
 	int posaPouHeader=sizeof(image_header);
 	int posaEminan=4-(posaBytePouPixels+posaPouHeader)%4;
@@ -44,10 +45,11 @@ void left90(bmp_image *prev) {
 
 		ans->data=(image_data*)malloc(sizeof(image_data));
 		ans->data->pixelArray = pixelArray;
-		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("Zoomedin-")))*sizeof(char*));
-		char* name = strcpy(ans->nameOfFile,"Zoomedin-");
+		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("left90-")))*sizeof(char*));
+		char* name = strcpy(ans->nameOfFile,"left90-");
 		 name = strcat(name,prev->nameOfFile);
 		ans->nameOfFile = name;
+		ans->header->infoHeader.biSizeImage = 0;
 		printInBinaryFile(ans);
 		return;
 

@@ -48,10 +48,11 @@ void zoomIn(bmp_image *prev) {
 
 		ans->data=(image_data*)malloc(sizeof(image_data));
 		ans->data->pixelArray = pixelArray;
-		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("ZoomedOut-")))*sizeof(char*));
-		char* name = strcpy(ans->nameOfFile,"ZoomedOut-");
+		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("ZoomedIn-")))*sizeof(char*));
+		char* name = strcpy(ans->nameOfFile,"ZoomedIn-");
 		 name = strcat(name,prev->nameOfFile);
 		ans->nameOfFile = name;
+		ans->header->infoHeader.biSizeImage = 0;
 		printInBinaryFile(ans);
 		return;
 

@@ -19,11 +19,11 @@ int main(int argc, char **argv) {
 checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
-			//TODO	list(temp);
+				printHeader(temp->header);
 			}
 
 		}
@@ -32,7 +32,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -46,7 +46,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -59,7 +59,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -72,7 +72,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -85,7 +85,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -98,7 +98,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -111,7 +111,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -124,7 +124,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -137,7 +137,7 @@ checkMissingFiles(argc);
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv);
+			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -156,8 +156,8 @@ int checkArgsFor(char *str, int argc, char **argv) {
 	int i = 0;
 	for (i = 0; i < argc; ++i) {
 		if (strcmp(argv[i], str) == 0)
-			return i;
+			return 1;
 	}
-	return -1;
+	return 0;
 
 }
