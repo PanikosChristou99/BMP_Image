@@ -76,7 +76,7 @@ image_header* copyHeader(image_header* original);
 Pixel* copyPixel(Pixel* original);
 Pixel * makePaddingPixel();
 void printInBinaryFile( bmp_image* image);
-
-
-
+void checkMissingFiles(int argc);
+int checkLegal(bmp_image *im);
+bmp_image* readBmp(char *fileName);
 #endif /* BMP_IMAGE_H_ */

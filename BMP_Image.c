@@ -111,5 +111,56 @@ Pixel * makePaddingPixel()
 	pad->blue=(unsigned char) 0;
 	return pad;
 }
+void checkMissingFiles(int argc){
+	if (argc==2) {
+				printf("you didnt put any files");
+				exit(-1);
+			}
+}
+int checkLegal(bmp_image *im) {
+	char *str = im->nameOfFile;
+	if (str[strlen(str) - 4] != '.' || str[strlen(str) - 3] != 'b'
+			|| str[strlen(str) - 2] != 'm' || str[strlen(str) - 1] != 'p')
+		return 1;
+	if (im->header->fileHeader.bfType1 != 'B'
+			|| im->header->fileHeader.bfType2 != 'M'
+			|| im->header->infoHeader.biBitCount != 24
+			|| im->header->infoHeader.biCompression != 0) {
+		return 1;
+	}
+	return 0;
+}
+bmp_image* readBmp(char *fileName) {
+	FILE *bin;
+	bin = fopen(fileName, "rb");
+	image_header *header = (image_header*) malloc(sizeof(image_header));
+	fread(header, sizeof(image_header), 1, bin);
+	int height = header->infoHeader.biHeight;
+	int width = header->infoHeader.biWidth;
+	int padding = (width * 3) % 4;
 
+	printHeader(header);
+	image_data *data = (image_data*) malloc(sizeof(image_data));
+	data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
+	Pixel *temp = malloc(sizeof(Pixel));
+	for (int i = height-1; i >=0; i--) {
+		data->pixelArray[i] = (Pixel**) malloc(width * sizeof(Pixel*));
+		for (int j = 0; j < width; j++) {
+			data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
+			fread(data->pixelArray[i][j], sizeof(Pixel), 1, bin);
+			//printPixel(data->pixelArray[i][j]);
+		}
+		for (int j = 0; j < padding; j++) {
+			fread(temp, sizeof(Pixel), 1, bin);
+			//printPixel(temp);
 
+		}
+	}
+
+	bmp_image *image = (bmp_image*) malloc(sizeof(bmp_image));
+	image->data = data;
+	image->header = header;
+	image->nameOfFile = fileName;
+	return image;
+
+}

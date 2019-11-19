@@ -28,17 +28,25 @@ void left90(bmp_image *prev) {
 	}
 	for ( i = 0; i < height; i++) {
 		for (j = 0; j < width; i++) {
-			pixelArray[i][j] = prev->data->pixelArray[width-1-j][i];
+			pixelArray[i][j] = prev->data->pixelArray[height-1-i][j];
 
 		}
 	}
-
+	int posaBytePouPixels=height*(padding+width)*sizeof(Pixel);
+	int posaPouHeader=sizeof(image_header);
+	int posaEminan=4-(posaBytePouPixels+posaPouHeader)%4;
 	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
-		ans->header = copyHeader(prev->header);
-		ans->data = pixelArray;
-		ans->nameOfFile = malloc(sizeof(char*));
-		char* name = strcpy(ans->nameOfFile,prev->nameOfFile);
-		 name = strcat(name,"ZoomedOut");
+	ans->header = copyHeader(prev->header);
+		ans->header->fileHeader.bfSize=(double_word)(posaBytePouPixels+posaPouHeader+posaEminan);
+		ans->header->infoHeader.biWidth=width;
+		ans->header->infoHeader.biHeight=height;
+		ans->header->infoHeader.biSizeImage=posaBytePouPixels;
+
+		ans->data=(image_data*)malloc(sizeof(image_data));
+		ans->data->pixelArray = pixelArray;
+		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("Zoomedin-")))*sizeof(char*));
+		char* name = strcpy(ans->nameOfFile,"Zoomedin-");
+		 name = strcat(name,prev->nameOfFile);
 		ans->nameOfFile = name;
 		printInBinaryFile(ans);
 		return;
