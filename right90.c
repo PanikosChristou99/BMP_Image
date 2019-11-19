@@ -15,7 +15,6 @@ void right90(bmp_image *prev) {
 	int i = 0;
 			int j = 0;
 	Pixel ***pixelArray = (Pixel***) malloc(height *sizeof(Pixel**));
-	Pixel *temp = malloc(sizeof(Pixel));
 	for ( i = 0; i < height; i++) {
 		pixelArray[i] = (Pixel**) malloc((width + padding) * sizeof(Pixel*));
 		for ( j = 0; j < width; j++) {
@@ -27,21 +26,33 @@ void right90(bmp_image *prev) {
 
 	}
 	for ( i = 0; i < height; i++) {
-		for (j = 0; j < width; i++) {
-			pixelArray[i][j] = prev->data->pixelArray[j][height-1-i];
+		for (j = 0; j < width; j++) {
+
+			pixelArray[i][j] = prev->data->pixelArray[width-1-j][i];
 
 		}
 	}
 
-	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
+
+	int posaBytePouPixels=height*(padding+width)*sizeof(Pixel);
+		int posaPouHeader=sizeof(image_header);
+		int posaEminan=4-(posaBytePouPixels+posaPouHeader)%4;
+		bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
 		ans->header = copyHeader(prev->header);
-		ans->data = pixelArray;
-		ans->nameOfFile = malloc(sizeof(char*));
-		char* name = strcpy(ans->nameOfFile,prev->nameOfFile);
-		 name = strcat(name,"ZoomedOut");
-		ans->nameOfFile = name;
-		printInBinaryFile(ans);
-		return;
+			ans->header->fileHeader.bfSize=(double_word)(posaBytePouPixels+posaPouHeader+posaEminan);
+			ans->header->infoHeader.biWidth=width;
+			ans->header->infoHeader.biHeight=height;
+			ans->header->infoHeader.biSizeImage=posaBytePouPixels;
+
+			ans->data=(image_data*)malloc(sizeof(image_data));
+			ans->data->pixelArray = pixelArray;
+			ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("right90-")))*sizeof(char*));
+			char* name = strcpy(ans->nameOfFile,"right90-");
+			 name = strcat(name,prev->nameOfFile);
+			ans->nameOfFile = name;
+			ans->header->infoHeader.biSizeImage = 0;
+			printInBinaryFile(ans);
+			return;
 
 
 }

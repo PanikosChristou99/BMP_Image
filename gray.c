@@ -39,6 +39,7 @@ void gray(bmp_image *prev) {
 		char* name = strcpy(ans->nameOfFile,"gray-");
 		name = strcat(name,prev->nameOfFile);
 		ans->nameOfFile = name;
+		ans->header->infoHeader.biSizeImage = 0;
 		printInBinaryFile(ans);
 		return;
 	}
