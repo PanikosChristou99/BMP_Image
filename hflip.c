@@ -4,6 +4,7 @@
  *  Created on: Nov 18, 2019
  *      Author: panikos
  */
+#include "hflip.h"
 void hflip (bmp_image *original)
 {
 	image_header* header= copyHeader(original->header);

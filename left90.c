@@ -4,6 +4,7 @@
  *  Created on: Nov 18, 2019
  *      Author: panikos
  */
+#include "left90.h"
 void left90(bmp_image *prev) {
 	double_word prevwidth = prev->header->infoHeader.biWidth;
 	double_word prevheight = prev->header->infoHeader.biHeight;

@@ -7,7 +7,7 @@
 
 #ifndef LEFT90_H_
 #define LEFT90_H_
-
-left90(bmp_image *prev);
+#include "BMP_Image.h"
+void left90(bmp_image *prev);
 
 #endif /* LEFT90_H_ */
