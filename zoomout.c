@@ -9,18 +9,24 @@
 void zoomout(bmp_image *prev) {
 	double_word width = (double_word)(prev->header->infoHeader.biWidth/2);
 	double_word height = (double_word)(prev->header->infoHeader.biHeight/2);
-	double_word padding = (width * 3) % 4;
+	int padding=0; ;
+			int pad=(width*3)%4;
+			if(pad==0)
+			{
+				padding=0;
+			}
+			else
+			{
+				padding=4-pad;
+			}
 	int i = 0;
 	int j = 0;
 	Pixel ***pixelArray = (Pixel***) malloc(height *sizeof(Pixel**));
 	for ( i = 0; i < height; i++) {
-		pixelArray[i] = (Pixel**) malloc((width + padding) * sizeof(Pixel*));
+		pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
 		for ( j = 0; j < width; j++) {
 			pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
 			pixelArray[i][j] = (Pixel *)prev->data->pixelArray[i*2][j*2];
-		}
-		for ( j = width; j < width + padding; j++) {
-			pixelArray[i][j] = makePaddingPixel();
 		}
 	}
 

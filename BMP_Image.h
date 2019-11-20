@@ -19,9 +19,9 @@ typedef unsigned int double_word;
 
 typedef struct Pixel
 {
-	byte red;
-	byte green;
 	byte blue;
+	byte green;
+	byte red;
 } __attribute__((__packed__)) Pixel;
 typedef struct bitMapFileHeader
 {

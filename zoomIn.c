@@ -11,18 +11,25 @@ void zoomIn(bmp_image *prev) {
 		double_word prev_height = prev->header->infoHeader.biHeight;
 	double_word width = 2*prev->header->infoHeader.biWidth;
 	double_word height = 2*prev->header->infoHeader.biHeight;
-	int padding = (width * 3) % 4;
+	int padding=0; ;
+			int pad=(width*3)%4;
+			if(pad==0)
+			{
+				padding=0;
+			}
+			else
+			{
+				padding=4-pad;
+			}
 	int i = 0;
 	int j = 0;
 	Pixel ***pixelArray = (Pixel***) malloc(height *sizeof(Pixel**));
 	for ( i = 0; i < height; i++) {
-		pixelArray[i] = (Pixel**) malloc((width + padding) * sizeof(Pixel*));
+		pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
 		for ( j = 0; j < width; j++) {
 			pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
 		}
-		for ( j = width; j < width + padding; j++) {
-			pixelArray[i][j] = makePaddingPixel();
-		}
+
 	}
 
 

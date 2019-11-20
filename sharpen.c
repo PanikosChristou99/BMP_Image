@@ -9,19 +9,22 @@
 void sharpen(bmp_image *prev) {
 	double_word width = prev->header->infoHeader.biWidth;
 	double_word height = prev->header->infoHeader.biHeight;
-	int padding = (width * 3) % 4;
+	int padding=0; ;
+			int pad=(width*3)%4;
+			if(pad==0)
+			{
+				padding=0;
+			}
+			else
+			{
+				padding=4-pad;
+			}
 
 	Pixel ***pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
 	int i = 0;
 		int j = 0;
 	for ( i = 0; i < height; i++) {
-		pixelArray[i] = (Pixel**) malloc((width+padding) * sizeof(Pixel*));
-		for ( j = 0; j < width; j++) {
-			pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel)); // pithanon tuto na en garbge
-		}
-		for (int j = width; j < width+padding; j++) {
-					pixelArray[i][j] = makePaddingPixel();
-				}
+		pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
 
 	}
 

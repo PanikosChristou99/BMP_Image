@@ -17,7 +17,16 @@ void printInBinaryFile( bmp_image* image)
 	FILE * whereToPrint= fopen(image->nameOfFile, "wb");
 	int height = image->header->infoHeader.biHeight;
 			int width = image->header->infoHeader.biWidth;
-			int padding = 4-(width * 3) % 4;
+			int padding=0; ;
+			int pad=(width*3)%4;
+			if(pad==0)
+			{
+				padding=0;
+			}
+			else
+			{
+				padding=4-pad;
+			}
 	fwrite((image->header), sizeof(*(image->header)), 1, whereToPrint);
 			for(int i=height-1; i>=0; i--)
 			{
@@ -25,16 +34,21 @@ void printInBinaryFile( bmp_image* image)
 				{
 					fwrite((image->data->pixelArray[i][j]), sizeof(Pixel), 1, whereToPrint);
 				}
-				fwrite(makePaddingbyte(), sizeof(byte), padding, whereToPrint);
+				for(int j=0; j<padding; j++)
+				{
+					fwrite(makePaddingbyte(), sizeof(byte), 1, whereToPrint);
+				}
+
 
 			}
 		fclose(whereToPrint);
 }
-byte * makePaddingbyte()
+
+byte* makePaddingbyte()
 {
-	byte* pad= (byte*)malloc(sizeof(byte));
-	*(pad) = (byte)0;
-	return pad;
+	byte* temp=(byte*)malloc(sizeof(byte));
+	*temp=(byte)0;
+	return temp;
 }
 void printFileHeader(bitMapFileHeader f)
 {
@@ -112,14 +126,6 @@ Pixel* copyPixel(Pixel* original)
 	return temp;
 }
 
-Pixel * makePaddingPixel()
-{
-	Pixel * pad= (Pixel*)malloc(sizeof(Pixel));
-	pad->red=(unsigned char) 0;
-	pad->green=(unsigned char) 0;
-	pad->blue=(unsigned char) 0;
-	return pad;
-}
 
 void checkMissingFiles(int argc){
 	if (argc==2) {
@@ -147,31 +153,37 @@ bmp_image* readBmp(char *fileName) {
 	fread(header, sizeof(image_header), 1, bin);
 	int height = header->infoHeader.biHeight;
 	int width = header->infoHeader.biWidth;
-	int padding = 4- (width * 3) % 4;
+	int padding=0; ;
+				int pad=(width*3)%4;
+				if(pad==0)
+				{
+					padding=0;
+				}
+				else
+				{
+					padding=4-pad;
+				}
 
 	//printHeader(header);
 	image_data *data = (image_data*) malloc(sizeof(image_data));
 	data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
-	Pixel *temp = malloc(sizeof(Pixel));
+	byte *temp2 = malloc(sizeof(byte));
 	for (int i = height-1; i >=0; i--) {
-		data->pixelArray[i] = (Pixel**) malloc((width+padding) * sizeof(Pixel*));
-		for (int j = 0; j < width + padding; j++) {
-			if (j< width) {
+		data->pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
+		for (int j = 0; j < width; j++) {
 				data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
 				fread(data->pixelArray[i][j], sizeof(Pixel), 1, bin);
 				//printPixel(data->pixelArray[i][j]);
-			} else {
-				fread(temp, sizeof(byte), 1, bin);
-			}
-			//printPixel(temp);
-
 		}
-	}
-
+		for(int j=0; j<padding; j++){
+				fread(temp2, sizeof(byte), 1, bin);
+		}
+		}
 	bmp_image *image = (bmp_image*) malloc(sizeof(bmp_image));
 	image->data = data;
 	image->header = header;
 	image->nameOfFile = fileName;
+	fclose(bin);
 	return image;
 
 }

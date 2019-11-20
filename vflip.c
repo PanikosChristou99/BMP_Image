@@ -11,24 +11,29 @@ void vflip (bmp_image *original)
 	image_data *data = (image_data*) malloc(sizeof(image_data));
 	int height=original->header->infoHeader.biHeight;
 	int width= original->header->infoHeader.biWidth;
-	int padding = (width * 3) % 4;
+	int padding=0; ;
+			int pad=(width*3)%4;
+			if(pad==0)
+			{
+				padding=0;
+			}
+			else
+			{
+				padding=4-pad;
+			}
 	data->pixelArray = (Pixel***) malloc( height * sizeof(Pixel**));
 
 
 	for (int i =0; i <height; i++) {
 		int z=width-1;
-		data->pixelArray[i] = (Pixel**) malloc((width+padding) * sizeof(Pixel*));
+		data->pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
 		for (int j = 0; j < width; j++) {
 			data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
 			data->pixelArray[i][j] = copyPixel(original->data->pixelArray[i][z]);
 			//printPixel(data->pixelArray[i][j]);
 			z--;
 		}
-		for (int j = 0; j < padding; j++) {
-			data->pixelArray[i][width+j] = (Pixel*) malloc(sizeof(Pixel));
-			data->pixelArray[i][width+j] = makePaddingPixel();
-			//printPixel(temp);
-		}
+
 
 	}
 	bmp_image* ans= (bmp_image*)malloc(sizeof(bmp_image));
