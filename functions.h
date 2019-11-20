@@ -1,7 +1,9 @@
-/*
+/**
  * functions.h
  *
- *  Created on: Nov 18, 2019
+ *	@brief shows you which functions exist
+ *
+ *  Created on: Nov 20, 2019
  *      Author: panikos
  */
 

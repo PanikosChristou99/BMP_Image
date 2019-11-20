@@ -1,6 +1,12 @@
-/*
+/**
  * brighten.c
  *
+ *	@brief brighten the image
+ *
+ *	Applies the brighten mask [2,2,2]
+ *							  [2,2,2]
+ *							  [2,2,2]
+ *	where a pixel has the format of  the box its in
  *  Created on: Nov 20, 2019
  *      Author: panikos
  */
@@ -11,47 +17,57 @@
 void brighten(bmp_image *prev) {
 	double_word width = prev->header->infoHeader.biWidth;
 	double_word height = prev->header->infoHeader.biHeight;
-	int padding=0;
-			int pad=(width*3)%4;
-			if(pad==0)
-			{
-				padding=0;
-			}
-			else
-			{
-				padding=4-pad;
-			}
+	int padding = 0;
+	int pad = (width * 3) % 4;
+	if (pad == 0) {
+		padding = 0;
+	} else {
+		padding = 4 - pad;
+	}
 
 	Pixel ***pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
 	int i = 0;
-		int j = 0;
-	for ( i = 0; i < height; i++) {
+	int j = 0;
+	for (i = 0; i < height; i++) {
 		pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
 
 	}
 
-	for(int i=0; i<height; i++)
-	{
-		for(int j=0; j<width; j++)
-		{
-			pixelArray[i][j]=brightencalcSharpenValues(prev,j,i);
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			pixelArray[i][j] = brightencalcValues(prev, j, i);
 		}
 	}
 
 	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
 	ans->header = copyHeader(prev->header);
-	ans->data=(image_data*)malloc(sizeof(image_data));
+	ans->data = (image_data*) malloc(sizeof(image_data));
 	ans->data->pixelArray = pixelArray;
 	ans->nameOfFile = malloc(sizeof(char*));
-	ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("brighten-")))*sizeof(char*));
-			char* name = strcpy(ans->nameOfFile,"brighten-");
-			 name = strcat(name,prev->nameOfFile);
-			ans->nameOfFile = name;
-			printInBinaryFile(ans);
+	ans->nameOfFile = malloc(
+			(strlen(prev->nameOfFile) + 1 + (strlen("brighten-")))
+					* sizeof(char*));
+	char *name = strcpy(ans->nameOfFile, "brighten-");
+	name = strcat(name, prev->nameOfFile);
+	ans->nameOfFile = name;
+	printInBinaryFile(ans);
+	free(ans->header);
+	free(ans->nameOfFile);
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			free(pixelArray[i][j]);
+		}
+	}
+	for (i = 0; i < height; i++) {
+		free(pixelArray[i]);
+	}
+	free(pixelArray);
+	free(ans->data);
+	free(ans);
 	return;
 }
 
-Pixel*  brightencalcSharpenValues(bmp_image* image, int x, int y) {
+Pixel* brightencalcValues(bmp_image *image, int x, int y) {
 	int m1 = 2;
 	int m2 = 2;
 	int m3 = 2;
@@ -62,98 +78,100 @@ Pixel*  brightencalcSharpenValues(bmp_image* image, int x, int y) {
 	int m8 = 2;
 	int m9 = 2;
 
-	Pixel*** array= image->data->pixelArray;
+	Pixel ***array = image->data->pixelArray;
 	int plinY;
-	if(y-1<0)
-	{
-		plinY=image->header->infoHeader.biHeight-1;
+	if (y - 1 < 0) {
+		plinY = image->header->infoHeader.biHeight - 1;
+	} else {
+		plinY = y - 1;
 	}
-	else
-	{
-		plinY=y-1;
-	}
-
 
 	int plinX;
-	if(x-1<0)
-		{
-			plinX=image->header->infoHeader.biWidth-1;
-		}
-		else
-		{
-			plinX=x-1;
-		}
+	if (x - 1 < 0) {
+		plinX = image->header->infoHeader.biWidth - 1;
+	} else {
+		plinX = x - 1;
+	}
 
 	int sinY;
-	if(y+1>=image->header->infoHeader.biHeight)
-	{
-		sinY=0;
+	if (y + 1 >= image->header->infoHeader.biHeight) {
+		sinY = 0;
+	} else {
+		sinY = y + 1;
 	}
-	else
-	{
-		sinY=y+1;
-	}
-
 
 	int sinX;
-	if(x+1>=image->header->infoHeader.biWidth)
-		{
-			sinX=0;
-		}
-		else
-		{
-			sinX=x+1;
-		}
+	if (x + 1 >= image->header->infoHeader.biWidth) {
+		sinX = 0;
+	} else {
+		sinX = x + 1;
+	}
 	int isoY;
-	isoY=y;
+	isoY = y;
 	int isoX;
-	isoX=x;
+	isoX = x;
 
+	int red = m1 * (int) array[plinY][plinX]->red
+			+ m2 * (int) array[plinY][isoX]->red
+			+ m3 * (int) array[plinY][sinX]->red;
+	red = red + m4 * (int) array[isoY][plinX]->red
+			+ m5 * (int) array[isoY][isoX]->red
+			+ m6 * (int) array[isoY][sinX]->red;
+	red = red + m7 * (int) array[sinY][plinX]->red
+			+ m8 * (int) array[sinY][isoX]->red
+			+ m9 * (int) array[sinY][sinX]->red;
 
+	int green = m1 * (int) array[plinY][plinX]->green
+			+ m2 * (int) array[plinY][isoX]->green
+			+ m3 * (int) array[plinY][sinX]->green;
+	green = green + m4 * (int) array[isoY][plinX]->green
+			+ m5 * (int) array[isoY][isoX]->green
+			+ m6 * (int) array[isoY][sinX]->green;
+	green = green + m7 * (int) array[sinY][plinX]->green
+			+ m8 * (int) array[sinY][isoX]->green
+			+ m9 * (int) array[sinY][sinX]->green;
 
-	int red=m1*(int)array[plinY][plinX]->red+m2*(int)array[plinY][isoX]->red+m3*(int)array[plinY][sinX]->red;
-	red=red+m4*(int)array[isoY][plinX]->red+m5*(int)array[isoY][isoX]->red+m6*(int)array[isoY][sinX]->red;
-	red=red+m7*(int)array[sinY][plinX]->red+m8*(int)array[sinY][isoX]->red+m9*(int)array[sinY][sinX]->red;
+	int blue = m1 * (int) array[plinY][plinX]->blue
+			+ m2 * (int) array[plinY][isoX]->blue
+			+ m3 * (int) array[plinY][sinX]->blue;
+	blue = blue + m4 * (int) array[isoY][plinX]->blue
+			+ m5 * (int) array[isoY][isoX]->blue
+			+ m6 * (int) array[isoY][sinX]->blue;
+	blue = blue + m7 * (int) array[sinY][plinX]->blue
+			+ m8 * (int) array[sinY][isoX]->blue
+			+ m9 * (int) array[sinY][sinX]->blue;
+	red = red / 9;
+	blue = blue / 9;
+	green = green / 9;
+	if (blue < 0) {
+		blue = 0;
+	}
+	if (green < 0) {
+		green = 0;
+	}
+	if (red < 0) {
+		red = 0;
+	}
+	if (blue >= 255) {
+		blue = 255;
+	}
+	if (green >= 255) {
+		green = 255;
+	}
+	if (red >= 255) {
+		red = 255;
+	}
+	Pixel *temp = (Pixel*) malloc(sizeof(Pixel));
+	temp->red = (byte) (red);
+	temp->green = (byte) (green);
+	temp->blue = (byte) (blue);
 
-	int green=m1*(int)array[plinY][plinX]->green+m2*(int)array[plinY][isoX]->green+m3*(int)array[plinY][sinX]->green;
-		green=green+m4*(int)array[isoY][plinX]->green+m5*(int)array[isoY][isoX]->green+m6*(int)array[isoY][sinX]->green;
-		green=green+m7*(int)array[sinY][plinX]->green+m8*(int)array[sinY][isoX]->green+m9*(int)array[sinY][sinX]->green;
-
-	int blue=m1*(int)array[plinY][plinX]->blue+m2*(int)array[plinY][isoX]->blue+m3*(int)array[plinY][sinX]->blue;
-		blue=blue+m4*(int)array[isoY][plinX]->blue+m5*(int)array[isoY][isoX]->blue+m6*(int)array[isoY][sinX]->blue;
-		blue=blue+m7*(int)array[sinY][plinX]->blue+m8*(int)array[sinY][isoX]->blue+m9*(int)array[sinY][sinX]->blue;
-red = red/9;
-blue = blue/9;
-green = green/9;
-		if(blue<0)
-		{
-			blue=0;
-		}
-		if(green<0)
-		{
-			green=0;
-		}
-		if(red<0)
-		{
-			red=0;
-		}
-		if(blue>=255)
-		{
-			blue=255;
-		}
-		if(green>=255)
-		{
-			green=255;
-		}
-		if(red>=255)
-		{
-			red=255;
-		}
-		Pixel* temp = (Pixel*) malloc(sizeof(Pixel));
-		temp->red=(byte)(red);
-		temp->green=(byte)(green);
-		temp->blue=(byte)(blue);
-
-		return temp;
+	return temp;
 }
+#ifdef DEBUGBrighten
+bmp_image *prev = readBmp("image1.bmp");
+brighten(prev);
+
+
+#endif
 

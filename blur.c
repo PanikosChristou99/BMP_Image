@@ -40,12 +40,25 @@ void blur(bmp_image *prev) {
 	ans->header = copyHeader(prev->header);
 	ans->data=(image_data*)malloc(sizeof(image_data));
 	ans->data->pixelArray = pixelArray;
-	ans->nameOfFile = malloc(sizeof(char*));
 	ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("blur-")))*sizeof(char*));
 			char* name = strcpy(ans->nameOfFile,"blur-");
 			 name = strcat(name,prev->nameOfFile);
-			ans->nameOfFile = name;
+			ans->nameOfFile = name; //renaming
 			printInBinaryFile(ans);
+			free(ans->header);
+			free(ans->nameOfFile);
+			for(int i=0; i<height; i++){
+				for(int j=0; j<width; j++)
+				{
+					free(pixelArray[i][j]);
+				}
+			}
+			for ( i = 0; i < height; i++) {
+				 free(pixelArray[i]);
+				}
+			free(pixelArray);
+			free(ans->data);
+			free(ans);
 	return;
 }
 
@@ -156,4 +169,10 @@ green = green/9;
 
 		return temp;
 }
+#ifdef DEBUGBlur
+int main(int argc, char **argv) {
+bmp_image *prev = readBmp("image1.bmp");
+blur(prev);
+}
 
+#endif

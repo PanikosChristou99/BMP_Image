@@ -1,5 +1,5 @@
 /**
- * blur.c
+ * blur.h
  *
  *	@brief blurs the image
  *
@@ -14,7 +14,7 @@
 #define BLUR_H_
 
 #include "BMP_Image.h"
-/**creates and prints the new image*/
+/**creates and prints the blurred image*/
 void blur(bmp_image *prev);
 /**calculates the box value*/
 Pixel*  blurcalcSharpenValues(bmp_image* image, int x, int y) ;

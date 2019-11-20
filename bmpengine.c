@@ -1,7 +1,7 @@
 /**
  * bmpengine.c
  *
- *	@brief the main class, the one the user interacts with and gets result
+ *	@brief the main class, the one the user interacts with and gets the result
  *  Created on: Nov 20, 2019
  *      Author: panikos
  */
@@ -12,15 +12,15 @@
 #include "functions.h"
 int checkArgsFor(char *str, int argc, char **argv);
 int main(int argc, char **argv) {
+	bmp_image *temp = NULL;
 	if (argc == 1) {
 		printf("en evales arguments");
 	}
 	if (checkArgsFor("-list", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
-			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
@@ -31,7 +31,6 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-hflip", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -45,7 +44,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-vflip", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -58,7 +57,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-right90", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -71,7 +70,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-left90", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -84,7 +83,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-zoomin", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -97,7 +96,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-zoomout", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -110,7 +109,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-gray", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -136,7 +135,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-blur", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -149,7 +148,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-rgray", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -162,7 +161,7 @@ int main(int argc, char **argv) {
 	} else if (checkArgsFor("-brighten", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
-		bmp_image *temp = NULL;
+
 		for (i = 2; i < argc; ++i) {
 			temp = readBmp(argv[i]);
 			if (!checkLegal(temp)) {
@@ -175,6 +174,7 @@ int main(int argc, char **argv) {
 	} else {
 		printf("en edoses sosto option");
 	}
+
 
 	return 0;
 }
