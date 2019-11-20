@@ -6,7 +6,7 @@
  */
 
 #include "BMP_Image.h"
-#include "gray.h"
+#include "rgray.h"
 #include "math.h"
 
 void rgray(bmp_image *prev) {
@@ -26,15 +26,15 @@ void rgray(bmp_image *prev) {
 	int j = 0;
 	for (i = 0; i < height; ++i) {
 		for (j = 0; j < width; ++j) {
-			pixelArray[i][j] = calcGray(prev->data->pixelArray[i][j]);
+			pixelArray[i][j] = rcalcGray(prev->data->pixelArray[i][j]);
 		}
 	}
 	bmp_image *ans = (bmp_image*) malloc(sizeof(bmp_image));
 		ans->header = copyHeader(prev->header);
 		ans->data=(image_data*)malloc(sizeof(image_data));
 		ans->data->pixelArray = pixelArray;
-		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("gray-")))*sizeof(char*));
-		char* name = strcpy(ans->nameOfFile,"gray-");
+		ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("rgray-")))*sizeof(char*));
+		char* name = strcpy(ans->nameOfFile,"rgray-");
 		name = strcat(name,prev->nameOfFile);
 		ans->nameOfFile = name;
 		ans->header->infoHeader.biSizeImage = 0;

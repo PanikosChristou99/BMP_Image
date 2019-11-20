@@ -19,7 +19,6 @@
 #include "vflip.h"
 #include "hflip.h"
 #include "blur.h"
-#include "motionblur.h"
 #include "rgray.h"
 
 #endif /* FUNCTIONS_H_ */

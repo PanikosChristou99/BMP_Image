@@ -1,17 +1,17 @@
 /*
- * blur.c
+ * brighten.c
  *
  *  Created on: Nov 20, 2019
  *      Author: panikos
  */
 
-#include "blur.h"
+#include "brighten.h"
 #include "BMP_Image.h"
 #include "BMP_Image.h"
-void blur(bmp_image *prev) {
+void brighten(bmp_image *prev) {
 	double_word width = prev->header->infoHeader.biWidth;
 	double_word height = prev->header->infoHeader.biHeight;
-	int padding=0; ;
+	int padding=0;
 			int pad=(width*3)%4;
 			if(pad==0)
 			{
@@ -34,7 +34,7 @@ void blur(bmp_image *prev) {
 	{
 		for(int j=0; j<width; j++)
 		{
-			pixelArray[i][j]=blurcalcSharpenValues(prev,j,i);
+			pixelArray[i][j]=brightencalcSharpenValues(prev,j,i);
 		}
 	}
 
@@ -43,24 +43,24 @@ void blur(bmp_image *prev) {
 	ans->data=(image_data*)malloc(sizeof(image_data));
 	ans->data->pixelArray = pixelArray;
 	ans->nameOfFile = malloc(sizeof(char*));
-	ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("blur-")))*sizeof(char*));
-			char* name = strcpy(ans->nameOfFile,"blur-");
+	ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("brighten-")))*sizeof(char*));
+			char* name = strcpy(ans->nameOfFile,"brighten-");
 			 name = strcat(name,prev->nameOfFile);
 			ans->nameOfFile = name;
 			printInBinaryFile(ans);
 	return;
 }
 
-Pixel*  blurcalcSharpenValues(bmp_image* image, int x, int y) {
-	int m1 = 1;
-	int m2 = 1;
-	int m3 = 1;
-	int m4 = 1;
-	int m5 = 1;
-	int m6 = 1;
-	int m7 = 1;
-	int m8 = 1;
-	int m9 = 1;
+Pixel*  brightencalcSharpenValues(bmp_image* image, int x, int y) {
+	int m1 = 2;
+	int m2 = 2;
+	int m3 = 2;
+	int m4 = 2;
+	int m5 = 2;
+	int m6 = 2;
+	int m7 = 2;
+	int m8 = 2;
+	int m9 = 2;
 
 	Pixel*** array= image->data->pixelArray;
 	int plinY;
