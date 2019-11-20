@@ -17,20 +17,38 @@ void printInBinaryFile( bmp_image* image)
 	FILE * whereToPrint= fopen(image->nameOfFile, "wb");
 	int height = image->header->infoHeader.biHeight;
 			int width = image->header->infoHeader.biWidth;
-			int padding = 4-(width * 3) % 4;
+			int padding=0; ;
+			int pad=(width*3)%4;
+			if(pad==0)
+			{
+				padding=0;
+			}
+			else
+			{
+				padding=4-pad;
+			}
 	fwrite((image->header), sizeof(*(image->header)), 1, whereToPrint);
-	byte* pad= (byte*)malloc(sizeof(byte));
-	*(pad) = (byte)0;
 			for(int i=height-1; i>=0; i--)
 			{
 				for(int j=0; j<(width); j++)
 				{
 					fwrite((image->data->pixelArray[i][j]), sizeof(Pixel), 1, whereToPrint);
 				}
-				fwrite(pad, sizeof(byte), padding, whereToPrint);
+				for(int j=0; j<padding; j++)
+				{
+					fwrite(makePaddingbyte(), sizeof(byte), 1, whereToPrint);
+				}
+
 
 			}
 		fclose(whereToPrint);
+}
+
+byte* makePaddingbyte()
+{
+	byte* temp=(byte*)malloc(sizeof(byte));
+	*temp=(byte)0;
+	return temp;
 }
 void printFileHeader(bitMapFileHeader f)
 {
@@ -135,12 +153,20 @@ bmp_image* readBmp(char *fileName) {
 	fread(header, sizeof(image_header), 1, bin);
 	int height = header->infoHeader.biHeight;
 	int width = header->infoHeader.biWidth;
-	int padding = 4- (width * 3) % 4;
+	int padding=0; ;
+				int pad=(width*3)%4;
+				if(pad==0)
+				{
+					padding=0;
+				}
+				else
+				{
+					padding=4-pad;
+				}
 
 	//printHeader(header);
 	image_data *data = (image_data*) malloc(sizeof(image_data));
 	data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
-	Pixel *temp = malloc(sizeof(Pixel));
 	byte *temp2 = malloc(sizeof(byte));
 	for (int i = height-1; i >=0; i--) {
 		data->pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
@@ -150,7 +176,6 @@ bmp_image* readBmp(char *fileName) {
 				//printPixel(data->pixelArray[i][j]);
 		}
 		for(int j=0; j<padding; j++){
-
 				fread(temp2, sizeof(byte), 1, bin);
 		}
 		}
