@@ -45,20 +45,7 @@ void blur(bmp_image *prev) {
 			 name = strcat(name,prev->nameOfFile);
 			ans->nameOfFile = name; //renaming
 			printInBinaryFile(ans);
-			free(ans->header);
-			free(ans->nameOfFile);
-			for(int i=0; i<height; i++){
-				for(int j=0; j<width; j++)
-				{
-					free(pixelArray[i][j]);
-				}
-			}
-			for ( i = 0; i < height; i++) {
-				 free(pixelArray[i]);
-				}
-			free(pixelArray);
-			free(ans->data);
-			free(ans);
+
 	return;
 }
 

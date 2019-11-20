@@ -17,16 +17,6 @@ void hflip (bmp_image *original)
 	image_data *data = (image_data*) malloc(sizeof(image_data));
 	int height=original->header->infoHeader.biHeight;
 	int width= original->header->infoHeader.biWidth;
-//	int padding=0;
-//			int pad=(width*3)%4;
-//			if(pad==0)
-//			{
-//				padding=0;
-//			}
-//			else
-//			{
-//				padding=4-pad;
-//			}
 	data->pixelArray = (Pixel***) malloc( height * sizeof(Pixel**));
 
 	int z=height-1;
