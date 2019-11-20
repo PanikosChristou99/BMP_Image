@@ -62,29 +62,3 @@ void right90(bmp_image *prev) {
 
 
 }
-
-//int main() {
-//	char*nameOfFile=(char*)malloc(strlen("image1.bmp")*sizeof(char));
-//	nameOfFile="image1.bmp";
-//
-//		bmp_image *image = readBmp(nameOfFile);
-//		int height=image->header->infoHeader.biHeight;
-//		int width=image->header->infoHeader.biWidth;
-//		image->nameOfFile="kostis.bmp";
-//		//printImageNot(image);
-//		for(int i=0; i<height; i++)
-//		{
-//			for(int j=0; j<width; j++)
-//			{
-//				if((j==0)||(j=width-1))
-//				{
-//				printf("pixes ti thesi %d %d \n",i,j);
-//				printPixel(image->data->pixelArray[i][j]);
-//				}
-//			}
-//		}
-//		right90(image);
-//		//printInBinaryFile(image);
-//}
-//
-

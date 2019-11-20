@@ -25,11 +25,11 @@ void left90(bmp_image *prev) {
 			int j = 0;
 	Pixel ***pixelArray = (Pixel***) malloc(height *sizeof(Pixel**));
 	for ( i = 0; i < height; i++) {
-		pixelArray[i] = (Pixel**) malloc((width + padding) * sizeof(Pixel*));
+		pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel*));
 		for ( j = 0; j < width; j++) {
 			pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
 		}
-
+	}
 
 
 		for ( i = 0; i < height; i++) {
@@ -52,8 +52,8 @@ void left90(bmp_image *prev) {
 
 				ans->data=(image_data*)malloc(sizeof(image_data));
 				ans->data->pixelArray = pixelArray;
-				ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("right90-")))*sizeof(char*));
-				char* name = strcpy(ans->nameOfFile,"right90-");
+				ans->nameOfFile = malloc((strlen(prev->nameOfFile)+1+(strlen("left90-")))*sizeof(char*));
+				char* name = strcpy(ans->nameOfFile,"left90-");
 				 name = strcat(name,prev->nameOfFile);
 				ans->nameOfFile = name;
 				ans->header->infoHeader.biSizeImage = 0;
@@ -63,6 +63,6 @@ void left90(bmp_image *prev) {
 
 }
 
-}
+
 
 

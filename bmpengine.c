@@ -132,7 +132,7 @@ checkMissingFiles(argc);
 			}
 
 		}
-	} else if (checkArgsFor("-reverse", argc, argv)) {
+	}else if (checkArgsFor("-motionblur", argc, argv)) {
 		int i = 0;
 		checkMissingFiles(argc);
 		bmp_image *temp = NULL;
@@ -141,7 +141,33 @@ checkMissingFiles(argc);
 			if (!checkLegal(temp)) {
 				printf("cant parse the %d  image \n", i - 1);
 			} else {
-		//		reverse(temp);
+				motionblur(temp);
+			}
+
+		}
+	}else if (checkArgsFor("-blur", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv[i]);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				blur(temp);
+			}
+
+		}
+	}else if (checkArgsFor("-rgray", argc, argv)) {
+		int i = 0;
+		checkMissingFiles(argc);
+		bmp_image *temp = NULL;
+		for (i = 2; i < argc; ++i) {
+			temp = readBmp(argv[i]);
+			if (!checkLegal(temp)) {
+				printf("cant parse the %d  image \n", i - 1);
+			} else {
+				rgray(temp);
 			}
 
 		}
