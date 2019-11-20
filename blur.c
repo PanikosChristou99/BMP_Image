@@ -1,6 +1,12 @@
-/*
+/**
  * blur.c
  *
+ *	@brief blurs the image
+ *
+ *	Applies the box blur mask [1,1,1]
+ *							  [1,1,1]
+ *							  [1,1,1]
+ *	where a pixel has the format of  the box its in
  *  Created on: Nov 20, 2019
  *      Author: panikos
  */
@@ -11,18 +17,10 @@
 void blur(bmp_image *prev) {
 	double_word width = prev->header->infoHeader.biWidth;
 	double_word height = prev->header->infoHeader.biHeight;
-	int padding=0; ;
-			int pad=(width*3)%4;
-			if(pad==0)
-			{
-				padding=0;
-			}
-			else
-			{
-				padding=4-pad;
-			}
 
+	//creating our pixel[heigth][width]
 	Pixel ***pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
+
 	int i = 0;
 		int j = 0;
 	for ( i = 0; i < height; i++) {
@@ -34,7 +32,7 @@ void blur(bmp_image *prev) {
 	{
 		for(int j=0; j<width; j++)
 		{
-			pixelArray[i][j]=blurcalcSharpenValues(prev,j,i);
+			pixelArray[i][j]=blurcalcSharpenValues(prev,j,i); //find the boxs value
 		}
 	}
 
@@ -61,7 +59,8 @@ Pixel*  blurcalcSharpenValues(bmp_image* image, int x, int y) {
 	int m7 = 1;
 	int m8 = 1;
 	int m9 = 1;
-
+	//find the x next and x before
+	//find the y above and y below
 	Pixel*** array= image->data->pixelArray;
 	int plinY;
 	if(y-1<0)
@@ -125,6 +124,7 @@ Pixel*  blurcalcSharpenValues(bmp_image* image, int x, int y) {
 red = red/9;
 blue = blue/9;
 green = green/9;
+//no out of bounds
 		if(blue<0)
 		{
 			blue=0;
@@ -149,7 +149,7 @@ green = green/9;
 		{
 			red=255;
 		}
-		Pixel* temp = (Pixel*) malloc(sizeof(Pixel));
+		Pixel* temp = (Pixel*) malloc(sizeof(Pixel));//assign
 		temp->red=(byte)(red);
 		temp->green=(byte)(green);
 		temp->blue=(byte)(blue);

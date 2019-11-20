@@ -1,7 +1,8 @@
-/*
+/**
  * bmpengine.c
  *
- *  Created on: Nov 17, 2019
+ *	@brief the main class, the one the user interacts with and gets result
+ *  Created on: Nov 20, 2019
  *      Author: panikos
  */
 #include <stdio.h>

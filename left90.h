@@ -1,7 +1,13 @@
-/*
- * left90.h
+/**
+ * blur.c
  *
- *  Created on: Nov 18, 2019
+ *	@brief blurs the image
+ *
+ *	Applies the box blur mask [1,1,1]
+ *							  [1,1,1]
+ *							  [1,1,1]
+ *	where a pixel has the format of  the box its in
+ *  Created on: Nov 20, 2019
  *      Author: panikos
  */
 
