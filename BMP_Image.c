@@ -28,6 +28,7 @@ void printInBinaryFile( bmp_image* image)
 				padding=4-pad;
 			}
 	fwrite((image->header), sizeof(*(image->header)), 1, whereToPrint);
+	byte* temp=makePaddingbyte();
 			for(int i=height-1; i>=0; i--)
 			{
 				for(int j=0; j<(width); j++)
@@ -36,12 +37,31 @@ void printInBinaryFile( bmp_image* image)
 				}
 				for(int j=0; j<padding; j++)
 				{
-					fwrite(makePaddingbyte(), sizeof(byte), 1, whereToPrint);
+					fwrite(temp, sizeof(byte), 1, whereToPrint);
 				}
-
-
 			}
-		fclose(whereToPrint);
+			free(temp);
+			kill_image(image);
+			fclose(whereToPrint);
+}
+
+void kill_image(bmp_image* image)
+{
+	int height=image->header->infoHeader.biHeight;
+	int width=image->header->infoHeader.biWidth;
+	free(image->nameOfFile);
+				free(image->header);
+				for(int i=0; i<height; i++)
+				{
+					for(int j=0; j<width; j++)
+					{
+						free(image->data->pixelArray[i][j]);
+					}
+					free(image->data->pixelArray[i]);
+				}
+				free(image->data->pixelArray);
+				free(image->data);
+				free(image);
 }
 
 byte* makePaddingbyte()
@@ -153,7 +173,7 @@ bmp_image* readBmp(char *fileName) {
 	fread(header, sizeof(image_header), 1, bin);
 	int height = header->infoHeader.biHeight;
 	int width = header->infoHeader.biWidth;
-	int padding=0; ;
+	int padding=0;
 				int pad=(width*3)%4;
 				if(pad==0)
 				{
@@ -179,11 +199,11 @@ bmp_image* readBmp(char *fileName) {
 				fread(temp2, sizeof(byte), 1, bin);
 		}
 		}
+	 free(temp2);
 	bmp_image *image = (bmp_image*) malloc(sizeof(bmp_image));
 	image->data = data;
 	image->header = header;
 	image->nameOfFile = fileName;
 	fclose(bin);
 	return image;
-
 }
