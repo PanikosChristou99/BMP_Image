@@ -17,16 +17,26 @@ void printInBinaryFile( bmp_image* image)
 	FILE * whereToPrint= fopen(image->nameOfFile, "wb");
 	int height = image->header->infoHeader.biHeight;
 			int width = image->header->infoHeader.biWidth;
-			int padding = (width * 3) % 4;
+			int padding = 4-(width * 3) % 4;
 	fwrite((image->header), sizeof(*(image->header)), 1, whereToPrint);
 			for(int i=height-1; i>=0; i--)
 			{
-				for(int j=0; j<(width+padding); j++)
+				for(int j=0; j<(width); j++)
 				{
 					fwrite((image->data->pixelArray[i][j]), sizeof(Pixel), 1, whereToPrint);
 				}
+				for(int j=0; j<padding; j++)
+				{
+					fwrite(makePaddingbyte(), sizeof(byte), padding, whereToPrint);
+				}
 			}
 		fclose(whereToPrint);
+}
+byte * makePaddingbyte() // dame pezi na exume lathos
+{
+	byte* pad= (byte*)malloc(sizeof(byte));
+	*(pad) = (byte)0;
+	return pad;
 }
 void printFileHeader(bitMapFileHeader f)
 {
@@ -139,30 +149,28 @@ bmp_image* readBmp(char *fileName) {
 	fread(header, sizeof(image_header), 1, bin);
 	int height = header->infoHeader.biHeight;
 	int width = header->infoHeader.biWidth;
-	int padding = (width * 3) % 4;
+	int padding = 4- (width * 3) % 4;
 
 	//printHeader(header);
 	image_data *data = (image_data*) malloc(sizeof(image_data));
 	data->pixelArray = (Pixel***) malloc(height * sizeof(Pixel**));
 	Pixel *temp = malloc(sizeof(Pixel));
 	for (int i = height-1; i >=0; i--) {
-		data->pixelArray[i] = (Pixel**) malloc(width * sizeof(Pixel*));
+		data->pixelArray[i] = (Pixel**) malloc((width) * sizeof(Pixel));
 		for (int j = 0; j < width; j++) {
-			data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
-			fread(data->pixelArray[i][j], sizeof(Pixel), 1, bin);
-			//printPixel(data->pixelArray[i][j]);
+				data->pixelArray[i][j] = (Pixel*) malloc(sizeof(Pixel));
+				fread(data->pixelArray[i][j], sizeof(Pixel), 1, bin);
+				//printPixel(data->pixelArray[i][j]);
 		}
-		for (int j = 0; j < padding; j++) {
-			fread(temp, sizeof(Pixel), 1, bin);
-			//printPixel(temp);
-
+		for(int j=0; j<padding; j++){
+				fread(temp, sizeof(byte), 1, bin);
 		}
-	}
-
+		}
 	bmp_image *image = (bmp_image*) malloc(sizeof(bmp_image));
 	image->data = data;
 	image->header = header;
 	image->nameOfFile = fileName;
+	fclose(bin);
 	return image;
 
 }
