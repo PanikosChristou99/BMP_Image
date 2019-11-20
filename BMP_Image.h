@@ -79,4 +79,5 @@ void printInBinaryFile( bmp_image* image);
 void checkMissingFiles(int argc);
 int checkLegal(bmp_image *im);
 bmp_image* readBmp(char *fileName);
+byte * makePaddingbyte();
 #endif /* BMP_IMAGE_H_ */
